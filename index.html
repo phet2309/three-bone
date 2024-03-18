@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three STL Assignment</title>
+    <!-- <link rel="preload" href="./customItalics.woff2" as="font" type="font/woff2" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+    <script src="./three.min.js"></script>
+    <script src="./STLLoader.js"></script>
+    <script src="./OrbitControls.js"></script>
+    <div id="loading">
+        <span id="progress"></span>
+    </div>
+    <svg viewBox="0 0 276 110" id="bgImg" style="opacity: 0; visibility: hidden;">
+        <g>
+            <path
+                d="M24.6,110 L31.5,103.1 L31.5,53 L13.8,38.45 L13.8,13.1 L17.7,13.1 L17.7,37.7 L31.5,37.7 L31.5,6.95 L24.6,0.05 L6.9,0.05 L0,6.95 L0,47.45 L17.85,62.15 L17.85,96.95 L13.65,96.95 L13.65,62.75 L0,62.75 L0,103.1 L6.9,110 L24.6,110 Z M50.5857143,110 L50.5857143,58.25 L55.0857143,58.25 L55.0857143,110 L68.8857143,110 L68.8857143,0.05 L55.0857143,0.05 L55.0857143,45.2 L50.5857143,45.2 L50.5857143,0.05 L36.7857143,0.05 L36.7857143,110 L50.5857143,110 Z M98.7714286,110 L105.671429,103.1 L105.671429,6.95 L98.7714286,0.05 L81.0714286,0.05 L74.1714286,6.95 L74.1714286,103.1 L81.0714286,110 L98.7714286,110 Z M91.8714286,96.95 L87.9714286,96.95 L87.9714286,13.1 L91.8714286,13.1 L91.8714286,96.95 Z M135.557143,110 L142.457143,103.1 L142.457143,0.05 L128.657143,0.05 L128.657143,97.1 L124.757143,97.1 L124.757143,0.05 L110.957143,0.05 L110.957143,103.1 L117.857143,110 L135.557143,110 Z M172.642857,110 L172.642857,96.95 L161.542857,96.95 L161.542857,0.05 L147.742857,0.05 L147.742857,110 L172.642857,110 Z M202.528571,110 L209.428571,103.1 L209.428571,6.95 L202.528571,0.05 L177.928571,0.05 L177.928571,110 L202.528571,110 Z M195.628571,96.95 L191.728571,96.95 L191.728571,13.1 L195.628571,13.1 L195.628571,96.95 Z M239.614286,110 L239.614286,96.95 L228.514286,96.95 L228.514286,58.25 L239.614286,58.25 L239.614286,45.2 L228.514286,45.2 L228.514286,13.1 L239.614286,13.1 L239.614286,0.05 L214.714286,0.05 L214.714286,110 L239.614286,110 Z M257.95,110 L257.95,58.25 L261.85,58.25 L261.85,110 L275.65,110 L275.65,56.6 L271.9,51.95 L275.65,46.85 L275.65,6.95 L268.75,0.05 L244.15,0.05 L244.15,110 L257.95,110 Z M261.85,45.2 L257.95,45.2 L257.95,13.1 L261.85,13.1 L261.85,45.2 Z"
+                fill="#464646"></path>
+        </g>
+    </svg>
+    <canvas id="Canvas" style="opacity: 0; visibility: hidden;"></canvas>
+    <div class="btn-holder" style="opacity: 0; visibility: hidden;">
+        <div id="rotateBtn" data-isRotating="0" onclick="rotateClicked()">Rotate</div>
+        <div onclick="resetClicked()">Reset</div>
+        <div onclick="infoClicked()">Info</div>
+    </div>
+    <div id="infoPage" style="opacity: 0; visibility: hidden;">
+        ASSIGNMENT A • 3D MODEL VIEWER WEBPAGE
+        <div>
+            <p>Instructions :</p>
+            <p>Rotate ⇢ Left Click + Drag</p>
+            <p>Pan ⇢ Right Click + Drag</p>
+            <p>Zoom ⇢ Scroll</p>
+        </div>
+        <p id="pageCredits">Designed and developed by <a href="https://phet2309.github.io/Het-Patel/" target="_blank">Het P</a></p>
+        <div class="btn-holder">
+            <div onclick="infoBackClicked()" style="color: #a3a3a3;">Back</div>
+        </div>
+    </div>
+    <script>
+        let renderer, scene, camera, controls, pLight1, pLight2, material, mesh;
+
+        function init() {
+            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('Canvas'), antialias: true, alpha: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            window.addEventListener('resize', reSize, false);
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 10000);
+            camera.position.set(0, 0, 150);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.update();
+
+            pLight1 = new THREE.PointLight(0xffffff, 1);
+            pLight1.position.set(200, -70, 0);
+            pLight1.power = 8;
+            scene.add(pLight1);
+            // const helper1 = new THREE.PointLightHelper( pLight1 );
+            // scene.add( helper1 );
+            pLight2 = new THREE.PointLight(0xffffff, 1);
+            pLight2.position.set(-200, 35, 0);
+            pLight2.power = 8;
+            scene.add(pLight2);
+            // const helper2 = new THREE.PointLightHelper( pLight2 );
+            // scene.add( helper2 );
+
+            material = new THREE.MeshStandardMaterial({
+                color: 0xFFFFFF,
+                emissive: "#454545"
+            });
+
+            var loader = new THREE.STLLoader();
+            loader.load('Shoulder_Bone.stl',
+                function (geometry) {
+                    mesh = new THREE.Mesh(geometry, material);
+                    mesh.rotation.x = 5;
+                    mesh.rotation.z = .25;
+                    scene.add(mesh);
+                    var tl = new gsap.timeline();
+                    tl.to('#loading', { autoAlpha: 0, duration: 1, ease: 'expo.in' });
+                    tl.to('#bgImg', { autoAlpha: 0.2, duration: 1, ease: 'expo.out' })
+                    tl.to('#Canvas, .btn-holder', { autoAlpha: 1, duration: 1, ease: 'expo.out' }, '<');
+                },
+                function (xhr) {
+                    if (xhr.lengthComputable) {
+                        var percentComplete = xhr.loaded / xhr.total * 100;
+                        // console.log(Math.round(percentComplete, 2) + '% downloaded');
+                        document.getElementById('progress').innerHTML = Math.round(percentComplete, 2) + '%';
+                    }
+                }
+            );
+
+            requestAnimationFrame(animate);
+        }
+        function animate() {
+            controls.update();
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        function reSize() {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        }
+        function resetClicked() {
+            controls.reset();
+        }
+        function rotateClicked() {
+            if (document.getElementById('rotateBtn').getAttribute('data-isRotating') == "0") {
+                controls.autoRotate = true;
+                document.getElementById('rotateBtn').innerHTML = "Stop";
+                document.getElementById('rotateBtn').setAttribute("data-isRotating", "1");
+            }
+            else {
+                controls.autoRotate = false;
+                document.getElementById('rotateBtn').innerHTML = "Rotate";
+                document.getElementById('rotateBtn').setAttribute("data-isRotating", "0");
+            }
+        }
+        function infoClicked() {
+            gsap.to('#infoPage', { autoAlpha: 1, duration: 1, ease: "expo.out" });
+        }
+        function infoBackClicked() {
+            gsap.to('#infoPage', { autoAlpha: 0, duration: 1, ease: "expo.out"});
+        }
+        init();
+    </script>
+</body>
+
+</html>

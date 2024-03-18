@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+@font-face {
+    font-family: custom1;
+    src: url("./customItalics.woff2");
+}
+* {
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+}
+html {
+    background-image: radial-gradient(rgb(202, 202, 202), rgba(36, 36, 36, 0.4));
+    width: 100vw;
+    height: 100vh;
+    font-smooth: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
+}
+#loading {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#progress {
+    font-family: custom1;
+    font-size: 30vw;
+    color: #363636;
+}
+#Canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+#bgImg {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 100%;
+    height: auto;
+    opacity: 20%;
+}
+#infoPage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a3a3a3;
+    font-size: 4vw;
+    /* font-family: custom1; */
+    font-family: 'Fjalla One', sans-serif;
+    flex-direction: column;
+}
+#infoPage div {
+    margin-top: 4vh;
+    margin-bottom: 3.5vh;
+}
+#infoPage div p {
+    margin-top: 0vh;
+    margin-bottom: 0vh;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 2.5vw;
+}
+#pageCredits {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: custom1;
+    font-size: 3vw;
+}
+#pageCredits a {
+    text-decoration: underline;
+    color: #a3a3a3;
+}
+.btn-holder {
+    position: fixed;
+    bottom: 4vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Fjalla One', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.2vw;
+    color: #363636;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+.btn-holder div {
+    cursor: pointer;
+    padding: 1vh 2vw;
+    margin: 0 2vw;
+    border: 2px solid #FFF;
+    border-radius: 0;
+}
